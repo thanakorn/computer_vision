@@ -14,10 +14,22 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	:rtype numpy.ndarray
 	"""
 	height, width = (image.shape[0], image.shape[1])
-	channel = image.shape[2] if(image.ndim) > 2 else 1
 	kheight,kwidth = kernel.shape
+	result_image = np.ndarray(shape=(height, width), buffer = np.zeros((height, width)), dtype=int)
 
-	print (height, width, channel)
+	height_start = int(kheight / 2)
+	height_end = height - int(kheight / 2)
+	width_start = int(kwidth / 2)
+	width_end = width - int(kwidth / 2)
 
-	result_image = np.ndarray(shape=(height, width, channel), buffer = np.zeros((height, width, channel)), dtype=int)
+	for i in range(height_start, height_end):
+		for j in range(width_start, width_end):
+			row_start = i - int(kheight / 2)
+			row_end = i + int(kheight / 2) + 1
+			col_start = j - int(kwidth / 2)
+			col_end = j + int(kwidth / 2) + 1
+			region = image[row_start:row_end, col_start:col_end]
+			result = region * kernel
+			result_image[i,j] = np.sum(result)
+
 	return result_image
