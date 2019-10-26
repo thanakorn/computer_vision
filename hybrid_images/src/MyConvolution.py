@@ -13,5 +13,11 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	:returns the convolved image (of the same shape as the input image)
 	:rtype numpy.ndarray
 	"""
-	# Your code here. You'll need to vectorise your implementation to ensure it runs
-	# at a reasonable speed.
+	height, width = (image.shape[0], image.shape[1])
+	channel = image.shape[2] if(image.ndim) > 2 else 1
+	kheight,kwidth = kernel.shape
+
+	print (height, width, channel)
+
+	result_image = np.ndarray(shape=(height, width, channel), buffer = np.zeros((height, width, channel)), dtype=int)
+	return result_image
