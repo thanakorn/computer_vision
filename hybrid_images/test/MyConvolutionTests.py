@@ -162,7 +162,47 @@ class TestMyConvolution(unittest.TestCase):
                 [0, 0, 0, 0, 0,0],
             ]))
         result = convolve(img, kernel)
-        assert_array_equal(result, expected)    
+        assert_array_equal(result, expected)
+
+    def test_rgb_img(self):
+        img = np.ndarray(
+            shape = (3,3,3), 
+            dtype = int,
+            buffer = np.array([[
+                [[48, 48, 48],
+                [41, 41, 41],
+                [43, 43, 43]],
+                [[42, 42, 42],
+                [47, 47, 47],
+                [44, 44, 44]],
+                [[45, 45, 45],
+                [46, 46, 46],
+                [43, 43, 43]]
+            ]]))
+        kernel = np.ndarray(
+            shape = (3,3),
+            dtype = int,
+            buffer = np.array([
+                [-1, -2, -1],
+                [0, 0, 0],
+                [1, 2, 1]
+            ]))
+        expected = np.ndarray(
+            shape = (3,3,3), 
+            dtype = int,
+            buffer = np.array([[
+                [[0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]],
+                [[0, 0, 0],
+                [7, 7, 7],
+                [0, 0, 0]],
+                [[0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]]
+            ]]))
+        result = convolve(img, kernel)
+        assert_array_equal(result, expected)
 
 if __name__ == '__main__':
     unittest.main()

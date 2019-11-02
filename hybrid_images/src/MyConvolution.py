@@ -13,7 +13,18 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	:returns the convolved image (of the same shape as the input image)
 	:rtype numpy.ndarray
 	"""
-	height, width = (image.shape[0], image.shape[1])
+	if (image.ndim > 2):
+		height, width, channel = image.shape
+		result_image = np.ndarray(shape=(height, width, channel), buffer = np.zeros((height, width, channel)), dtype=float)
+		for c in range(channel):
+			r = convolve_img(image[:,:,c], kernel)
+			result_image[:,:,c] = convolve_img(image[:,:,c], kernel)
+		return result_image
+	else:
+		return convolve_img(image, kernel)
+
+def convolve_img(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+	height, width = image.shape
 	kheight,kwidth = kernel.shape
 	result_image = np.ndarray(shape=(height, width), buffer = np.zeros((height, width)), dtype=float)
 
@@ -30,5 +41,4 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 			col_end = j + int(kwidth / 2) + 1
 			region = image[row_start:row_end, col_start:col_end]
 			result_image[i,j] = np.sum(region * kernel)
-
 	return result_image
