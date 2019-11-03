@@ -29,9 +29,9 @@ class TestMyConvolution(unittest.TestCase):
             shape = (3,3), 
             dtype = int,
             buffer = np.array([
-                [0, 0, 0],
-                [0, 7, 0],
-                [0, 0, 0]
+                [48, 41, 43],
+                [42, 7, 44],
+                [45, 46, 43]
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
@@ -59,11 +59,43 @@ class TestMyConvolution(unittest.TestCase):
             shape = (5,5), 
             dtype = int,
             buffer = np.array([
-                [0, 0, 0, 0, 0],
-                [0, 12, 12, 17, 0],
-                [0, 10, 17, 19, 0],
-                [0, 9, 6, 14, 0],
-                [0, 0, 0, 0, 0],
+                [3, 3, 2, 1, 0],
+                [0, 12, 12, 17, 1],
+                [3, 10, 17, 19, 3],
+                [2, 9, 6, 14, 2],
+                [2, 0, 0, 0, 1],
+            ]))
+        result = convolve(img, kernel)
+        assert_array_equal(result, expected)
+    
+    def test_img_edge_not_change(self):
+        img = np.ndarray(
+            shape = (5,5), 
+            dtype = int,
+            buffer = np.array([
+                [3, 3, 2, 1, 0],
+                [0, 0, 1, 3, 1],
+                [3, 1, 2, 2, 3],
+                [2, 0, 0, 2, 2],
+                [2, 0, 0, 0, 1],
+            ]))
+        kernel = np.ndarray(
+            shape = (3,3),
+            dtype = int,
+            buffer = np.array([
+                [0, 1, 2],
+                [2, 2, 0],
+                [0, 1, 2]
+            ]))
+        expected = np.ndarray(
+            shape = (5,5), 
+            dtype = int,
+            buffer = np.array([
+                [3, 3, 2, 1, 0],
+                [0, 12, 12, 17, 1],
+                [3, 10, 17, 19, 3],
+                [2, 9, 6, 14, 2],
+                [2, 0, 0, 0, 1],
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
@@ -91,11 +123,11 @@ class TestMyConvolution(unittest.TestCase):
             shape = (5,4), 
             dtype = int,
             buffer = np.array([
-                [0, 0, 0, 0],
-                [0, 12, 12, 0],
-                [0, 10, 17, 0],
-                [0, 9, 6, 0],
-                [0, 0, 0, 0],
+                [3, 3, 2, 1],
+                [0, 12, 12, 3],
+                [3, 10, 17, 2],
+                [2, 9, 6, 2],
+                [2, 0, 0, 0],
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
@@ -123,11 +155,11 @@ class TestMyConvolution(unittest.TestCase):
             shape = (5,5), 
             dtype = int,
             buffer = np.array([
-                [0, 0, 0, 0, 0],
-                [0, 0, 23, 0, 0],
-                [0, 0, 26, 0, 0],
-                [0, 0, 21, 0, 0],
-                [0, 0, 0, 0, 0],
+                [3, 3, 2, 1, 0],
+                [0, 0, 23, 3, 1],
+                [3, 1, 26, 2, 3],
+                [2, 0, 21, 2, 2],
+                [2, 0, 0, 0, 1],
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
@@ -155,11 +187,11 @@ class TestMyConvolution(unittest.TestCase):
             shape = (5,6), 
             dtype = int,
             buffer = np.array([
-                [0, 0, 0, 0, 0,0],
-                [0, 0, 23, 20, 0, 0],
-                [0, 0, 26, 29, 0, 0],
-                [0, 0, 21, 21, 0, 0],
-                [0, 0, 0, 0, 0,0],
+                [3, 3, 2, 1, 0, 1],
+                [0, 0, 23, 20, 1, 1],
+                [3, 1, 26, 29, 3, 2],
+                [2, 0, 21, 21, 2, 2],
+                [2, 0, 0, 0, 1, 2],
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
@@ -191,15 +223,15 @@ class TestMyConvolution(unittest.TestCase):
             shape = (3,3,3), 
             dtype = int,
             buffer = np.array([[
-                [[0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0]],
-                [[0, 0, 0],
+                [[48, 48, 48],
+                [41, 41, 41],
+                [43, 43, 43]],
+                [[42, 42, 42],
                 [7, 7, 7],
-                [0, 0, 0]],
-                [[0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0]]
+                [44, 44, 44]],
+                [[45, 45, 45],
+                [46, 46, 46],
+                [43, 43, 43]]
             ]]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)

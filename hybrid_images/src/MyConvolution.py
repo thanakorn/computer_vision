@@ -15,7 +15,7 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	"""
 	if (image.ndim > 2):
 		height, width, channel = image.shape
-		result_image = np.ndarray(shape=(height, width, channel), buffer = np.zeros((height, width, channel)), dtype=float)
+		result_image = np.copy(image)
 		for c in range(channel):
 			r = convolve_img(image[:,:,c], kernel)
 			result_image[:,:,c] = convolve_img(image[:,:,c], kernel)
@@ -26,7 +26,7 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 def convolve_img(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	height, width = image.shape
 	kheight,kwidth = kernel.shape
-	result_image = np.ndarray(shape=(height, width), buffer = np.zeros((height, width)), dtype=float)
+	result_image = np.copy(image)
 
 	height_start = int(kheight / 2)
 	height_end = height - int(kheight / 2)
