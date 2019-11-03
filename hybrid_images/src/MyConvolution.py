@@ -15,7 +15,7 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	"""
 	if (image.ndim > 2):
 		height, width, channel = image.shape
-		result_image = np.copy(image)
+		result_image = np.zeros((height, width, channel))
 		for c in range(channel):
 			r = convolve_img(image[:,:,c], kernel)
 			result_image[:,:,c] = convolve_img(image[:,:,c], kernel)
@@ -26,19 +26,23 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 def convolve_img(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 	height, width = image.shape
 	kheight,kwidth = kernel.shape
-	result_image = np.copy(image)
+	result_image = np.zeros((height, width))
 
 	height_start = int(kheight / 2)
 	height_end = height - int(kheight / 2)
 	width_start = int(kwidth / 2)
 	width_end = width - int(kwidth / 2)
 
-	for i in range(height_start, height_end):
-		for j in range(width_start, width_end):
-			row_start = i - int(kheight / 2)
-			row_end = i + int(kheight / 2) + 1
-			col_start = j - int(kwidth / 2)
-			col_end = j + int(kwidth / 2) + 1
-			region = image[row_start:row_end, col_start:col_end]
-			result_image[i,j] = np.sum(region * kernel)
+	for i in range(height):
+		for j in range(width):
+			if(i >= height_start and i < height_end and j >= width_start and j < width_end):
+				row_start = i - int(kheight / 2)
+				row_end = i + int(kheight / 2) + 1
+				col_start = j - int(kwidth / 2)
+				col_end = j + int(kwidth / 2) + 1
+				region = image[row_start:row_end, col_start:col_end]
+				result_image[i,j] = np.sum(region * kernel)
+			else:
+				result_image[i,j] = image[i, j]
+
 	return result_image
