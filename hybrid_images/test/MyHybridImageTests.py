@@ -10,9 +10,9 @@ from numpy.testing import assert_array_equal
 class TestMyHubridImages(unittest.TestCase):
 
     def test_make_gaussian_kernel_size(self):
-        self.assertEquals(makeGaussianKernel(0.5).shape, (5, 5))
-        self.assertEquals(makeGaussianKernel(0.125).shape, (3, 3))
-        self.assertEquals(makeGaussianKernel(1.0).shape, (9, 9))
+        self.assertEqual(makeGaussianKernel(0.5).shape, (5, 5))
+        self.assertEqual(makeGaussianKernel(0.125).shape, (3, 3))
+        self.assertEqual(makeGaussianKernel(1.0).shape, (9, 9))
 
     def test_make_gaussian_kernel_sum(self):
         np.testing.assert_almost_equal(np.sum(makeGaussianKernel(0.5)), 1.0)

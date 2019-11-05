@@ -25,9 +25,12 @@ def myHybridImages(lowImage: np.ndarray, lowSigma: float, highImage: np.ndarray,
            a Gaussian of s.d. highSigma. The resultant image has the same size as the input images.
     :rtype numpy.ndarray
     """
-    low_img_filtered = convolve(lowImage, makeGaussianKernel(lowSigma))
-    high_img_filtered = highImage - convolve(highImage,makeGaussianKernel(highSigma))
-    return (low_img_filtered + high_img_filtered)
+    low_gaussian_kernel = makeGaussianKernel(lowSigma)
+    high_gaussian_kernel = makeGaussianKernel(highSigma)
+    low_img_filtered = convolve(lowImage, low_gaussian_kernel)
+    high_img_filtered = highImage - convolve(highImage, high_gaussian_kernel)
+    hybrid_img = low_img_filtered + high_img_filtered
+    return hybrid_img
 
 def makeGaussianKernel(sigma: float) -> np.ndarray:
     """
@@ -60,6 +63,6 @@ def zero_pad(image: np.ndarray, num_row_pad, num_col_pad) -> np.ndarray:
         
 def pad(pad_value, image: np.ndarray, num_row_pad, num_col_pad):
     height, width = image.shape
-    padded_img = np.full((height + (num_row_pad * 2), width + (num_col_pad * 2)), 0)
+    padded_img = np.zeros((height + (num_row_pad * 2), width + (num_col_pad * 2)))
     padded_img[num_row_pad: height + num_row_pad, num_col_pad: width + num_col_pad] = image
     return padded_img
