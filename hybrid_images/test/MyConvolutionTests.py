@@ -67,6 +67,38 @@ class TestMyConvolution(unittest.TestCase):
             ]))
         result = convolve(img, kernel)
         assert_array_equal(result, expected)
+
+    def test_zero_padding_img(self):
+        img = np.ndarray(
+            shape = (5,5), 
+            dtype = int,
+            buffer = np.array([
+                [0,  0,  0,  0, 0],
+                [0, 48, 41, 43, 0],
+                [0, 42, 47, 44, 0],
+                [0, 45, 46, 43, 0],
+                [0,  0,  0,  0, 0]
+            ]))
+        kernel = np.ndarray(
+            shape = (3,3),
+            dtype = int,
+            buffer = np.array([
+                [-1, -2, -1],
+                [0, 0, 0],
+                [1, 2, 1]
+            ]))
+        expected = np.ndarray(
+            shape = (5,5), 
+            dtype = int,
+            buffer = np.array([
+                [0,  0,  0,  0, 0],
+                [0, 131, 180, 135, 0],
+                [0, -1, 7, 5, 0],
+                [0, -131, -180, -135, 0],
+                [0,  0,  0,  0, 0]
+            ]))
+        result = convolve(img, kernel)
+        assert_array_equal(result, expected)
     
     def test_img_edge_not_change(self):
         img = np.ndarray(

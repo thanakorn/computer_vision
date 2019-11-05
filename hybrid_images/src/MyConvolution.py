@@ -17,7 +17,6 @@ def convolve(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 		height, width, channel = image.shape
 		result_image = np.zeros((height, width, channel))
 		for c in range(channel):
-			r = convolve_img(image[:,:,c], kernel)
 			result_image[:,:,c] = convolve_img(image[:,:,c], kernel)
 		return result_image
 	else:
@@ -44,5 +43,4 @@ def convolve_img(image: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 				result_image[i,j] = np.sum(region * kernel)
 			else:
 				result_image[i,j] = image[i, j]
-
 	return result_image
