@@ -27,8 +27,8 @@ def myHybridImages(lowImage: np.ndarray, lowSigma: float, highImage: np.ndarray,
     """
     low_gaussian_kernel = makeGaussianKernel(lowSigma)
     high_gaussian_kernel = makeGaussianKernel(highSigma)
-    low_img_filtered = convolve(lowImage, int(low_gaussian_kernel.shape[0] / 2), int(low_gaussian_kernel.shape[1] / 2), low_gaussian_kernel)
-    high_img_filtered = highImage - convolve(highImage, int(high_gaussian_kernel.shape[0] / 2), int(high_gaussian_kernel.shape[1] / 2), high_gaussian_kernel)
+    low_img_filtered = convolve(lowImage, low_gaussian_kernel)
+    high_img_filtered = highImage - convolve(highImage, high_gaussian_kernel)
     hybrid_img = low_img_filtered + high_img_filtered
     return hybrid_img
 
