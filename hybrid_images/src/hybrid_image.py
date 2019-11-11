@@ -9,7 +9,7 @@ import cv2
 sys.path.append('/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/src')
 
 from hybrid_images.src.MyConvolution import convolve
-from hybrid_images.src.MyHybridImages import myHybridImages, makeGaussianKernel, zero_pad
+from hybrid_images.src.MyHybridImages import myHybridImages, makeGaussianKernel
 %matplotlib inline
 
 #%% RGB to Gray
@@ -46,10 +46,6 @@ gaussian_operator = makeGaussianKernel(0.5)
 gaussian_img = convolve(raw_img, gaussian_operator)
 gaussian_gray_img = convolve(gray_img, gaussian_operator)
 
-# over = np.where(gaussian_img > 255)
-# print(over)
-# print(under)
-
 plt.figure()
 plt.imshow(np.trunc(gaussian_img).astype(int))
 plt.figure()
@@ -76,20 +72,36 @@ sobel_horizontal_img = convolve(gray_img, sobel_horizontal_operator)
 sobel_vertical_img = convolve(gray_img, sobel_vertical_operator)
 plt.imshow(sobel_horizontal_img + sobel_vertical_img, cmap = 'gray')
 
+# %% Low-pass and High-pass filter
+cat_img = plt.imread('/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/cat.bmp')
+filtered_cat_img =  cat_img - convolve(cat_img, makeGaussianKernel(7.0))
+plt.figure()
+plt.imshow(np.trunc(0.5 + filtered_cat_img).astype(int))
+
 # %% Hybrid image
-low_img_file = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/marilyn.bmp'
-high_img_file = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/einstein.bmp'
-low_sigma = 5.0
+low_img_file = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/big-ben_2.bmp'
+high_img_file = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/pisa_1.bmp'
+high_img_file_2 = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_images/pisa_1.bmp'
+low_sigma = 0.5
 high_sigma = 5.0
 
-low_img = zero_pad(plt.imread(low_img_file), 20, 20)
-high_img = zero_pad(plt.imread(high_img_file), 20, 20)
-
-high_img_filtered = high_img - convolve(high_img, makeGaussianKernel(high_sigma))
-plt.figure()
-plt.imshow(np.trunc(0.5 + high_img_filtered).astype(int))
-
+low_img = plt.imread(low_img_file)
+high_img = plt.imread(high_img_file)
+high_img_2 = plt.imread(high_img_file_2)
 hybrid_img = myHybridImages(low_img, low_sigma, high_img, high_sigma)
+
+# plt.figure()
+# plt.imshow(low_img)
+# plt.figure()
+# plt.imshow(high_img)
+# plt.figure()
+# plt.imshow(high_img_2)
 plt.figure()
 plt.imshow(np.trunc(hybrid_img).astype(int))
+plt.savefig('hybridimage.png')
+# %% Correct image
+correct_img_file = '/home/tpanyapiang/git/MSc/computer_vision/hybrid_images/sample_hybrid_images/hybrid_image.jpg'
+correct_img = plt.imread(correct_img_file)
+plt.imshow(correct_img)
+
 # %%
